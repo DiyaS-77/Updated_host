@@ -117,7 +117,7 @@ class BluezLogger:
         run(self.log_path, bluetoothd_command, self.bluetoothd_log_name)
         time.sleep(1)
         print(f"bluetoothd process has started {self.bluetoothd_log_name}")
-        self.bluetoothd_logfile_fd = open(self.bluetoothd_log_name, 'r')
+        self.bluetoothd_logfile_fd = open(self.bluetoothd_log_name, 'a+')
         self.bluetoothd_file_position = self.bluetoothd_logfile_fd.tell()
         if log_text_browser is not None:
             print(f"Creating LogWatcher instance for bluetoothd logs")
@@ -140,7 +140,7 @@ class BluezLogger:
         run(self.log_path, pulseaudio_command, self.pulseaudio_log_name)
         time.sleep(1)
         print(f"pulseaudio process has started {self.pulseaudio_log_name}")
-        self.pulseaudio_logfile_fd = open(self.pulseaudio_log_name, 'r')
+        self.pulseaudio_logfile_fd = open(self.pulseaudio_log_name, 'a+')
         self.pulseaudio_file_position = self.pulseaudio_logfile_fd.tell()
         if log_text_browser is not None:
             print(f"Creating LogWatcher instance for pulseaudio logs")
@@ -158,7 +158,7 @@ class BluezLogger:
         "Constantly updating the bluetoothd logs "
         scrollbar = self.bluetoothd_log_watcher.text_browser.verticalScrollBar()
         at_bottom = scrollbar.value() >= scrollbar.maximum() - 10
-        with open(self.bluetoothd_log_name, 'r') as f:
+        with open(self.bluetoothd_log_name, 'a+') as f:
             f.seek(self.bluetoothd_log_watcher.last_position)
             new_logs = f.read()
             self.bluetoothd_log_watcher.last_position = f.tell()
@@ -170,7 +170,7 @@ class BluezLogger:
     def update_pulseaudio_log(self):
         scrollbar = self.pulseaudio_log_watcher.text_browser.verticalScrollBar()
         at_bottom = scrollbar.value() >= scrollbar.maximum() - 10
-        with open(self.pulseaudio_log_name, 'r') as f:
+        with open(self.pulseaudio_log_name, 'a+') as f:
             f.seek(self.pulseaudio_log_watcher.last_position)
             new_logs = f.read()
             self.pulseaudio_log_watcher.last_position = f.tell()
@@ -261,15 +261,17 @@ class BluezLogger:
 
             self.hcidump_process = subprocess.Popen(
                 hcidump_command.split(),
-                stdout=open(self.hcidump_log_name, 'w'),
+                stdout=open(self.hcidump_log_name, 'a+'),
                 stderr=subprocess.STDOUT,
                 bufsize=1,
                 universal_newlines=True
             )
 
             time.sleep(1)
+
             self.logfile_fd = open(self.hcidump_log_name, 'r')
             self.file_position = self.logfile_fd.tell()
+            #self.file_position=0
             #self.file_position=0
             if log_text_browser is not None:
                 self.hci_log_reader = HcidumpLogReader(self.hcidump_log_name)
