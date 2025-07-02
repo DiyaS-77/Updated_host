@@ -6,6 +6,9 @@ import threading
 import subprocess
 import dbus
 import time
+
+from reportlab.lib.colors import black
+
 from test_automation.UI.Backend_lib.Linux.bluez_utils import BluezLogger
 from test_automation.UI.UI_lib.controller_lib import Controller
 from test_automation.UI.logger import Logger
@@ -563,9 +566,10 @@ class TestApplication(QWidget):
         profiles_list_widget.addItem("HFP")
         profiles_list_widget.addItem("OPP")
         profiles_list_widget.addItem("GATT")
-        profiles_list_widget.setStyleSheet("color: blue;")
+        #profiles_list_widget.setStyleSheet("color: blue;")
         profiles_list_widget.setFont(bold_font)
-        profiles_list_widget.setStyleSheet("border: 3px solid black;" "background-color: lightblue;")
+        #profiles_list_widget.setStyleSheet("border: 3px solid black;" "background-color: lightblue;")
+        profiles_list_widget.setStyleSheet("border: 3px solid black;" "color: black;" "background: transparent;")
         profiles_list_widget.itemSelectionChanged.connect(self.profile_selected)
         profiles_list_widget.setFixedWidth(350)
         self.main_grid_layout.addWidget(profiles_list_widget, 1, 0, 2, 2)
@@ -576,7 +580,8 @@ class TestApplication(QWidget):
         controller_details_layout = QVBoxLayout()
         controller_details_widget.setStyleSheet("color: blue;")
         controller_details_widget.setFont(bold_font)
-        controller_details_widget.setStyleSheet("border: 3px solid black;" "background-color: lightblue")
+        #controller_details_widget.setStyleSheet("border: 3px solid black;" "background-color: lightblue")
+        controller_details_widget.setStyleSheet("border: 3px solid black;" "color: black;" "background: transparent;")
         self.main_grid_layout.addWidget(controller_details_widget, 3, 0, 8, 2)
         controller_details_layout.setContentsMargins(0, 0, 0, 0)
         controller_details_layout.setSpacing(0)
@@ -670,37 +675,53 @@ class TestApplication(QWidget):
         # Grid2: Profile description
         profile_description_label = QLabel("Profile Methods or Procedures:")
         profile_description_label.setFont(bold_font)
+        profile_description_label.setStyleSheet("color: black;")
+        #profile_description_label.setPalette(black)
         self.main_grid_layout.addWidget(profile_description_label, 0, 2)
         self.profile_description_text_browser = QTextBrowser()
         self.main_grid_layout.addWidget(self.profile_description_text_browser, 1, 2, 10, 2)
         self.profile_description_text_browser.setStyleSheet("color: black;")
-        self.profile_description_text_browser.setStyleSheet("border: 3px solid black;" "background-color: lightblue")
+        #self.profile_description_text_browser.setStyleSheet("border: 3px solid black;" "background-color: ligblue")
+        self.profile_description_text_browser.setStyleSheet("background: transparent;border: 2px solid black;")
         self.profile_description_text_browser.setFixedWidth(500)
 
         # Grid3: HCI Dump Logs
         dump_logs_label = QLabel("Dump Logs:")
         dump_logs_label.setFont(bold_font)
+        dump_logs_label.setStyleSheet("color: black;")
+        #dump_logs_label.setStyleSheet("border: 2px solid black; color: black;")
         self.main_grid_layout.addWidget(dump_logs_label, 0, 4)
         self.dump_logs_text_browser = QTabWidget()
         self.main_grid_layout.addWidget(self.dump_logs_text_browser, 1, 4, 10, 2)
-        self.dump_logs_text_browser.setStyleSheet("color: black;")
-        self.dump_logs_text_browser.setStyleSheet("border: 3px solid black;" "background-color: lightgreen")
+        #self.dump_logs_text_browser.setStyleSheet("color: black;")
+        self.dump_logs_text_browser.setStyleSheet("border: 2px solid black;background-color: lightblue;")
+        #self.dump_logs_text_browser.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
+        #self.dump_logs_text_browser.setStyleSheet("background: transparent;color: black;border: 2px solid black;")
         self.dump_logs_text_browser.setFixedWidth(400)
+
 
         self.bluetoothd_log_text_browser = QTextEdit()
         self.bluetoothd_log_text_browser.setFont(bold_font)
         self.bluetoothd_log_text_browser.setMinimumWidth(50)
         self.bluetoothd_log_text_browser.setReadOnly(True)
+        #self.bluetoothd_log_text_browser.setStyleSheet(log_browser_style)
+        #self.bluetoothd_log_text_browser.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground,True)
+        #self.bluetoothd_log_text_browser.setStyleSheet("background: transparent;border: 2px solid black;")
 
         self.pulseaudio_log_text_browser = QTextEdit()
         self.pulseaudio_log_text_browser.setFont(bold_font)
         self.pulseaudio_log_text_browser.setMinimumWidth(50)
         self.pulseaudio_log_text_browser.setReadOnly(True)
+        #self.pulseaudio_log_text_browser.setStyleSheet(log_browser_style)
+        #self.pulseaudio_log_text_browser.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground,True)
 
+        #self.pulseaudio_log_text_browser.setStyleSheet("background: transparent;border: 2px solid black;")
         self.hci_dump_log_text_browser = QTextEdit()
         self.hci_dump_log_text_browser.setFont(bold_font)
         self.hci_dump_log_text_browser.setMinimumWidth(50)
         self.hci_dump_log_text_browser.setReadOnly(True)
+        #self.hci_dump_log_text_browser.setStyleSheet(log_browser_style)
+        #self.hci_dump_log_text_browser.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground,True)
 
         self.dump_logs_text_browser.addTab(self.bluetoothd_log_text_browser, "Bluetoothd_Logs")
         self.dump_logs_text_browser.addTab(self.pulseaudio_log_text_browser, "Pulseaudio_Logs")
@@ -806,6 +827,7 @@ class TestApplication(QWidget):
             self.refresh_button_discoverable.clicked.connect(self.refresh_discoverable)
             self.refresh_button_discoverable.setFont(bold_font)
             self.refresh_button_discoverable.setStyleSheet("color:green;")
+            #self.refresh_button_discoverable.setStyleSheet("background:transparent;color:blue;")
             refresh_button_layout_discoverable.addWidget(self.refresh_button_discoverable)
             self.gap_methods_layout.addLayout(refresh_button_layout_discoverable)
 
